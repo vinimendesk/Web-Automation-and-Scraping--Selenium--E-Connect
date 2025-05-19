@@ -15,12 +15,18 @@ global planilha
 global file_path
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6257821 (Final version UI)
 # Parâmetros padrão.
 USUARIO = "06151282205"
 SENHA = "M@riane8291"
 
+<<<<<<< HEAD
 =======
 >>>>>>> ea536f6 (First Commit for UI)
+=======
+>>>>>>> 6257821 (Final version UI)
 # Componentes.
 # Título do app.
 titulo_text = ft.Text(
@@ -43,6 +49,9 @@ executar_button = ft.ElevatedButton(
 )
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6257821 (Final version UI)
 # Campos para os parâmetros
 usuario_field = ft.TextField(
     label="Digite seu nome de usuário",
@@ -56,8 +65,11 @@ senha_field = ft.TextField(
     width=300
 )
 
+<<<<<<< HEAD
 =======
 >>>>>>> ea536f6 (First Commit for UI)
+=======
+>>>>>>> 6257821 (Final version UI)
 # Status inicial.
 status = ft.Text("Esperando planilha renovação...", text_align=ft.TextAlign.CENTER)
 
@@ -71,6 +83,9 @@ def main_page():
                     # Cabeçalho
                     ft.Row([titulo_text], alignment=ft.MainAxisAlignment.CENTER),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6257821 (Final version UI)
                     ft.Container(height=300),
 
                     # Card de login sistema gestão.
@@ -80,9 +95,12 @@ def main_page():
                          ),
 
                     ft.Container(height=60),
+<<<<<<< HEAD
 =======
                     ft.Container(height=400),
 >>>>>>> ea536f6 (First Commit for UI)
+=======
+>>>>>>> 6257821 (Final version UI)
 
                     # Botão de upload, executar e caixa de status.
                     ft.Container(
@@ -164,6 +182,7 @@ def main(page: ft.Page):
                 return
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             status.value = "Abrindo sistema gestão..."
             status.update()
             bot.abrir_gestao("06151282205", "M@riane8291")
@@ -173,13 +192,20 @@ def main(page: ft.Page):
             status.value = "Procurando por clientes ..."
 =======
             status.value = "Faça login no whatsApp web com o QR Code."
+=======
+            status.value = "Abrindo sistema gestão..."
+>>>>>>> 6257821 (Final version UI)
             status.update()
-            # Inicia o whatsapp e espera fazer o QR CODE.
-            status.value = "Login feito com sucesso!"
+            bot.abrir_gestao("06151282205", "M@riane8291")
+            status.value = "Sistema aberto com sucesso!"
             status.update()
 
+<<<<<<< HEAD
             status.value = "Enviando mensagens..."
 >>>>>>> ea536f6 (First Commit for UI)
+=======
+            status.value = "Procurando por clientes ..."
+>>>>>>> 6257821 (Final version UI)
             status.update()
 
             status.value = "Planilha processada com sucesso!"
