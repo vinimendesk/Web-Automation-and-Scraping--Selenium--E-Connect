@@ -53,6 +53,14 @@ def abrir_gestao(usuario, senha):
 
     # Clica no botão "Vendas".
     navegador.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div[2]/div/div').click()
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    
+abrir_gestao()
+>>>>>>> ea536f6 (First Commit for UI)
+=======
+>>>>>>> 6257821 (Final version UI)
 
 # Registra os dados coletas no arquivo "Output/log.csv".
 def registrar_(dados):
