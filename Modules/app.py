@@ -14,6 +14,10 @@ global planilha
 # Variável que armazena o caminho da planilha.
 global file_path
 
+# Parâmetros padrão.
+USUARIO = "06151282205"
+SENHA = "M@riane8291"
+
 # Componentes.
 # Título do app.
 titulo_text = ft.Text(
@@ -35,6 +39,19 @@ executar_button = ft.ElevatedButton(
     icon=ft.Icons.PLAY_CIRCLE
 )
 
+# Campos para os parâmetros
+usuario_field = ft.TextField(
+    label="Digite seu nome de usuário",
+    value=str(USUARIO),
+    width=300
+)
+
+senha_field = ft.TextField(
+    label="Digite a sua senha",
+    value=str(SENHA),
+    width=300
+)
+
 # Status inicial.
 status = ft.Text("Esperando planilha renovação...", text_align=ft.TextAlign.CENTER)
 
@@ -47,7 +64,15 @@ def main_page():
                 [
                     # Cabeçalho
                     ft.Row([titulo_text], alignment=ft.MainAxisAlignment.CENTER),
-                    ft.Container(height=400),
+                    ft.Container(height=300),
+
+                    # Card de login sistema gestão.
+                    ft.Row(
+                         [usuario_field, senha_field],
+                         alignment=ft.MainAxisAlignment.CENTER
+                         ),
+
+                    ft.Container(height=60),
 
                     # Botão de upload, executar e caixa de status.
                     ft.Container(
@@ -128,13 +153,13 @@ def main(page: ft.Page):
                 status.update()
                 return
 
-            status.value = "Faça login no whatsApp web com o QR Code."
+            status.value = "Abrindo sistema gestão..."
             status.update()
-            # Inicia o whatsapp e espera fazer o QR CODE.
-            status.value = "Login feito com sucesso!"
+            bot.abrir_gestao("06151282205", "M@riane8291")
+            status.value = "Sistema aberto com sucesso!"
             status.update()
 
-            status.value = "Enviando mensagens..."
+            status.value = "Procurando por clientes ..."
             status.update()
 
             status.value = "Planilha processada com sucesso!"
