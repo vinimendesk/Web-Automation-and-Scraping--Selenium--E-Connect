@@ -29,10 +29,10 @@ def abrir_gestao(usuario, senha):
     navegador.get("https://areconnect.gestao.plus/ui/auth/login")
 
     # Procura pelo input do usuário e insere a credencial.
-    navegador.find_element(By.XPATH, '//*[@id="InputEmail"]').send_keys("06151282205")
+    navegador.find_element(By.XPATH, '//*[@id="InputEmail"]').send_keys(usuario)
 
     # Procura pelo input da senha e insere a credencial.
-    navegador.find_element(By.XPATH, '//*[@id="InputPassword"]').send_keys("M@riane8291")
+    navegador.find_element(By.XPATH, '//*[@id="InputPassword"]').send_keys(senha)
 
     # Procura pelo botão de login e clica.
     navegador.find_element(By.XPATH, '//*[@id="app"]/section/div/div/div[1]/div/div/button').click()
@@ -51,8 +51,10 @@ def abrir_gestao(usuario, senha):
 
     navegador.find_element(By.XPATH, '//*[@id="v-step-8676b12a"]/div[3]/div/button[1]').click()
 
+    time.sleep(1)
+
     # Clica no botão "Vendas".
-    navegador.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div[2]/div/div').click()
+    navegador.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/div/div').click()
 
 # Registra os dados coletas no arquivo "Output/log.csv".
 def registrar_(dados):
@@ -74,31 +76,36 @@ def registrar_(dados):
         writer.writerow(dados)
 
 # Já dentro do sistema, procura o filtra e busca os dados.
-def procurar_parceiro(codigo, dados):
+def procurar_parceiro(codigo):
     try:
         # Volta para o conteúdo principal (fora de qualquer iframe)
         navegador.switch_to.default_content()
-
+        
         # Acessa o iframe novamente
         iframe = navegador.find_element(By.CSS_SELECTOR, "iframe.iframeTab")
         navegador.switch_to.frame(iframe)
         print("Iframe encontrado.")
-
+        
         time.sleep(6)
 
-        # Clica no botão de filtro
-        navegador.find_element(By.XPATH, '//*[@id="app"]/div/div[3]/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/div/div/div[1]/div[3]/div[2]/button').click()
+        # Encontra todos os botões de filtro.
+        navegador.find_element(By.XPATH, "//div[@col-id='codigo']//button[contains(concat(' ', @class, ' '), ' btn ') and .//i[contains(concat(' ', @class, ' '), ' fa-filter ')]]").click()
 
         # Digita o código
         # Aguarda o input do código aparecer
         input_code = WebDriverWait(navegador, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="modal-options___BV_modal_body_"]/div/div/div/div/div/div/div/input'))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '#modal-options___BV_modal_body_ > div > div > div > div > div > div > div > input'))
         )
+
+        time.sleep(0.5)
         input_code.clear()  # Limpa o campo de entrada antes de inserir o código
         input_code.send_keys(codigo)
 
-        # Clica em pesquisar
-        navegador.find_element(By.XPATH, '//*[@id="modal-options___BV_modal_footer_"]/button[2]').click()
+        # Aguarda até o botão de pesquisa estar realmente clicável
+        botao_pesquisar = WebDriverWait(navegador, 15).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '#modal-options___BV_modal_footer_ > button.btn.btn-primary-custom'))
+        )
+        botao_pesquisar.click()
 
         time.sleep(5)
 
@@ -111,22 +118,22 @@ def procurar_parceiro(codigo, dados):
         for tentativa in range(3):
             try:
                 celulas = navegador.find_elements(By.CSS_SELECTOR, "div.h-100.d-flex.align-items-center")
-                # Armazena os dados
-                dados["Codigo"].append(codigo)
-                dados["Parceiro"].append(celulas[15].text)
-                dados["Unidade"].append(celulas[20].text)
                 break  # Sai do loop se der certo
 
             except StaleElementReferenceException:
                 print("⚠️ Elemento ficou obsoleto. Tentando novamente...")
                 time.sleep(2)
 
-        dados_mensagem = [codigo, celulas[15].text, celulas[20].text]
+        '''for index, celula in enumerate(celulas):
+            print(f"({str(index)}) {celula.text}")'''
+
+        dados_mensagem = [codigo, celulas[23].text, celulas[24].text]
 
         registrar_(dados_mensagem)
         print(f"✅{codigo}, registrado com sucesso, sem erros")
-        return dados
 
     except Exception as e:
-        print(f"❌{codigo}, erro ao buscar código, {e}")
-        return dados
+        print(f"❌{codigo}, erro ao buscar código, {type(e).__name__} - {str(e)}")
+
+#abrir_gestao("LISTA DE RENOVACAO", "Soluti123")
+#procurar_parceiro("0085587111")

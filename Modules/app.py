@@ -15,8 +15,8 @@ global planilha
 global file_path
 
 # Parâmetros padrão.
-USUARIO = "06151282205"
-SENHA = "M@riane8291"
+USUARIO = "LISTA DE RENOVACAO"
+SENHA = "Soluti123"
 
 # Componentes.
 # Título do app.
@@ -160,7 +160,11 @@ def main(page: ft.Page):
             status.value = "Sistema aberto com sucesso!"
             status.update()
             
-            
+            status.value = "Executando script..."
+            status.update()
+            for codigo in planilha["Codigo"]:
+                codigo_str = str(int(codigo)) if isinstance(codigo, float) else str(codigo)
+                bot.procurar_parceiro(codigo_str)
 
         else:
             status.value = "Faça upload da planilha primeiro."
